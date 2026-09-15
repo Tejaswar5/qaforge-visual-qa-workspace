@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "QAForge"
+description = "A professional visual QA and bug intelligence workspace for testing the DocuSign clone, comparing original versus clone behavior, capturing evidence, and producing assignment-ready reports."
+version = "1.0.0"
+id = "artifacts/qaforge"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23165
+
+[services.development]
+run = "pnpm --filter @workspace/qaforge run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/qaforge", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/qaforge/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23165"
+BASE_PATH = "/"
